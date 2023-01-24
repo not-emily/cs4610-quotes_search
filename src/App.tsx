@@ -10,6 +10,7 @@ interface Quote {
 function App() {
   const [searchTerm, setSearchTerm] = useState("");
   const [randQuote, setRandQuote] = useState("");
+  const [authorQuotes, setAuthorQuotes] = useState("")
   const [searching, setSearching] = useState(true);
 
   useEffect(() => {
@@ -27,13 +28,33 @@ function App() {
     setRandQuote(await result.json());
   }
 
+  async function getAuthorQuotes(author: string) {
+      const result = await fetch(`https://usu-quotes-mimic.vercel.app/api/search?query=${author}`);
+      setAuthorQuotes(await result.json()); 
+      console.log(authorQuotes.results);
+  }
+
+  function showHideRandom(searching: boolean) {
+    if (searching == true) {
+      document.getElementById("random-quote-block")!.style.visibility="hidden";
+    }
+    else {
+      document.getElementById("random-quote-block")!.style.visibility="visible";
+    }
+  }
 
   return (
     <div className="App">
       <h1>Quote Search</h1>
       <form onSubmit={(e) => {
-        setSearching(true); 
-        console.log(searching);
+        if (searchTerm != "") {
+          setSearching(true); 
+        } else {
+          setSearching(false);
+        }
+        console.log(`Searching: ${searching}`);
+        showHideRandom(searching);
+        getAuthorQuotes(searchTerm);
         e.preventDefault();
         }}>
         <input 
@@ -43,16 +64,12 @@ function App() {
           onChange={e => setSearchTerm(e.target.value)}
         />
       </form>
-      <p className="rand-quote">{randQuote.content}</p>
-      <p className="rand-author">- {randQuote.author}</p>
+      <div id="random-quote-block">
+        <p className="rand-quote">{randQuote.content}</p>
+        <p className="rand-author">- {randQuote.author}</p>
+      </div>
     </div>
   )
-}
-
-
-async function getAuthorQuotes(author) {
-    const result = await fetch('https://api.quotable.io/search/quotes?query=${author}&fields=author');
-    console.log(await result.json()); 
 }
 
 export default App
