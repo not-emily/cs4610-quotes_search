@@ -1,35 +1,50 @@
 import { useState, useEffect } from 'react'
 import './App.css'
 
+interface Quote {
+  _id: number;
+  content: string;
+  author: string;
+}
+
 function App() {
-  const [count, setCount] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
   const [randQuote, setRandQuote] = useState("");
+  const [searching, setSearching] = useState(true);
 
   useEffect(() => {
-    fetch("https://api.quotable.io/random")
-      .then(r => r.json())
-      .then(quote => setRandQuote(quote));
+    // fetch("https://usu-quotes-mimic.vercel.app/api/random")
+    //   .then(r => r.json())
+    //   .then(quote => {
+    //     setRandQuote(quote);
+    //     console.log(quote);
+    //   });
+    getRandQuote();
   }, []);
-
-
-  async function getRandom() {
-    const result = await fetch("https://api.quotable.io/random");
-    console.log(await result.json());
-    return result.json();
+  
+  async function getRandQuote() {
+    const result = await fetch("https://usu-quotes-mimic.vercel.app/api/random");
+    setRandQuote(await result.json());
   }
+
 
   return (
     <div className="App">
       <h1>Quote Search</h1>
-      <input 
-        type="text" 
-        value={searchTerm}
-        placeholder="Albert Einstein"
-        onChange={e => setSearchTerm(e.target.value)}
-      />
-      <p class="rand-quote">{randQuote.content}</p>
-      <p class="rand-author">- {randQuote.author}</p>
+      <form onSubmit={(e) => {
+        setSearching(true); 
+        console.log(searching);
+        e.preventDefault();
+        }}>
+        <input 
+          type="text" 
+          value={searchTerm}
+          placeholder="Albert Einstein"
+          onChange={e => setSearchTerm(e.target.value)}
+        />
+      </form>
+      <p className="rand-quote">{randQuote.content}</p>
+      <p className="rand-author">- {randQuote.author}</p>
     </div>
   )
 }
