@@ -31,7 +31,11 @@ function App() {
   async function getAuthorQuotes(author: string) {
       const result = await fetch(`https://usu-quotes-mimic.vercel.app/api/search?query=${author}`);
       setAuthorQuotes(await result.json()); 
-      console.log(authorQuotes.results);
+      authorQuotes.results.forEach(element => {
+        console.log(element.author);
+        
+      });
+      // console.log(authorQuotes.results);
   }
 
   function showHideRandom(searching: boolean) {
@@ -42,6 +46,12 @@ function App() {
       document.getElementById("random-quote-block")!.style.visibility="visible";
     }
   }
+
+  // function displayAuthorQuotes(quotes) {
+  //   for (let i=0; i<quotes.len; i++) {
+  //     console.log(quotes[i].author);
+  //   }
+  // }
 
   return (
     <div className="App">
@@ -64,9 +74,11 @@ function App() {
           onChange={e => setSearchTerm(e.target.value)}
         />
       </form>
-      <div id="random-quote-block">
-        <p className="rand-quote">{randQuote.content}</p>
-        <p className="rand-author">- {randQuote.author}</p>
+      <div>
+          <div id="random-quote-block">
+            <p className="rand-quote">{randQuote.content}</p>
+            <p className="rand-author">- {randQuote.author}</p>
+          </div>
       </div>
     </div>
   )
