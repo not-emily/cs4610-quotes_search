@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import './App.css'
+import './index.css'
 
 interface Quote {
   _id: number;
@@ -69,27 +69,25 @@ function App() {
           onChange={e => setSearchTerm(e.target.value)}
         />
       </form>
-      <div>
+      <div className="results">
         {
           !searching ? (
-          <div>
-            <p className="quote--content">{randQuote.content}</p>
-            <p className="quote--author">- {randQuote.author}</p>
+          <div className="quote">
+            <p className="quote__content">{randQuote.content}</p>
+            <p className="quote__author">- {randQuote.author}</p>
           </div>
           ) : null
         }
-          <div>
-            {
-              searching ? (
-              authorQuotes.map((quote) => (
-                <div key={quote._id}>
-                  <p className="quote--content">{quote.content}</p>
-                  <p className="quote--author">- {quote.author}</p>
-                </div>
-              ))
-              ) : null
-            }
-          </div>
+        {
+          searching ? (
+          authorQuotes.map((quote) => (
+            <div className="quote" key={quote._id}>
+              <p className="quote__content">{quote.content}</p>
+              <p className="quote__author">- {quote.author}</p>
+            </div>
+          ))
+          ) : null
+        }
       </div>
     </div>
   )

@@ -12,8 +12,9 @@ body,
   text-align: center;
   align-items: center;
   justify-content: center;
-  min-width: 320px;
+  /* min-width: 320px; */
   min-height: 100vh;
+  width: clamp(375px, 50%, 760px);
 
   font-family: 'League Spartan', sans-serif;
   font-size: 16px;
@@ -21,7 +22,8 @@ body,
   font-weight: 400;
 
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
+  color: #000;
+  /* color: rgba(255, 255, 255, 0.87); */
   background-color: #0F2339;
 
   font-synthesis: none;
@@ -44,6 +46,7 @@ h1 {
   font-family: 'Rubik', sans-serif;
   font-size: 2.8em;
   line-height: 1.1;
+  color: #fff
 }
 
 button {
@@ -87,6 +90,7 @@ input {
     background-color: white;
     color: black;
     padding: 10px 20px 10px 40px;
+    margin-bottom: 10px;
     width: 80%;
 }
 
@@ -94,13 +98,27 @@ input[type=text]:focus {
     border: 2px solid #555;
 }
 
-.quote--content {
-    margin-bottom: 0px;
-    padding-bottom: 0px;
+.results {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.quote--author {
+.quote {
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  margin: 10px;
+  padding: 10px 20px;
+  width: 80%;
+}
+
+.quote__content {
+    margin-bottom: 0px;
+    padding-bottom: 0px;
+    font-size: 1.5em;
+}
+
+.quote__author {
     margin-top: 0px;
     padding-top: 0px;
-    float: right;
 }
