@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import './App.css'
 
 interface Quote {
-  id: number;
+  _id: number;
   content: string;
   author: string;
 }
@@ -11,7 +11,7 @@ function App() {
   const [searchTerm, setSearchTerm] = useState("");
   const [randQuote, setRandQuote] = useState("");
   const [authorQuotes, setAuthorQuotes] = useState<Quote[]>([])
-  const [searching, setSearching] = useState(true);
+  const [searching, setSearching] = useState(false);
 
   useEffect(() => {
     // fetch("https://usu-quotes-mimic.vercel.app/api/random")
@@ -30,23 +30,18 @@ function App() {
 
   async function getAuthorQuotes(author: string) {
       const result = await fetch(`https://usu-quotes-mimic.vercel.app/api/search?query=${author}`);
-      setAuthorQuotes(await result.json()); 
-      authorQuotes.results.forEach(element => {
-        
-        console.log(element.author);
-        
-      });
-      // console.log(authorQuotes.results);
+      const body = await result.json(); 
+      setAuthorQuotes(body.results);
   }
 
-  function showHideRandom(searching: boolean) {
-    if (searching == true) {
-      document.getElementById("random-quote-block")!.style.visibility="hidden";
-    }
-    else {
-      document.getElementById("random-quote-block")!.style.visibility="visible";
-    }
-  }
+  // function showHideRandom(searching: boolean) {
+  //   if (searching == true) {
+  //     document.getElementById("random-quote-block")!.style.visibility="hidden";
+  //   }
+  //   else {
+  //     document.getElementById("random-quote-block")!.style.visibility="visible";
+  //   }
+  // }
 
   // function displayAuthorQuotes(quotes) {
   //   for (let i=0; i<quotes.len; i++) {
@@ -65,7 +60,6 @@ function App() {
         }
         console.log(`Searching: ${searching}`);
         if (searching) {getAuthorQuotes(searchTerm)}
-        showHideRandom(searching);
         e.preventDefault();
         }}>
         <input 
@@ -76,20 +70,26 @@ function App() {
         />
       </form>
       <div>
-          <div id="random-quote-block">
-            <p className="rand-quote">{randQuote.content}</p>
-            <p className="rand-author">- {randQuote.author}</p>
+        {
+          !searching ? (
+          <div>
+            <p className="quote--content">{randQuote.content}</p>
+            <p className="quote--author">- {randQuote.author}</p>
           </div>
-
-          {/* <div>
+          ) : null
+        }
+          <div>
             {
+              searching ? (
               authorQuotes.map((quote) => (
-                <div key={quote.id}>
-                  <p>{quote.author}</p>
+                <div key={quote._id}>
+                  <p className="quote--content">{quote.content}</p>
+                  <p className="quote--author">- {quote.author}</p>
                 </div>
               ))
+              ) : null
             }
-          </div> */}
+          </div>
       </div>
     </div>
   )

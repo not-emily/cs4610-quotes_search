@@ -94,12 +94,12 @@ input[type=text]:focus {
     border: 2px solid #555;
 }
 
-.rand-quote {
+.quote--content {
     margin-bottom: 0px;
     padding-bottom: 0px;
 }
 
-.rand-author {
+.quote--author {
     margin-top: 0px;
     padding-top: 0px;
     float: right;
