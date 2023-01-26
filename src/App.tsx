@@ -8,9 +8,9 @@ interface Quote {
 }
 
 function App() {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [randQuote, setRandQuote] = useState("");
+  const [randQuote, setRandQuote] = useState<Quote | null>(null);
   const [authorQuotes, setAuthorQuotes] = useState<Quote[]>([])
+  const [searchTerm, setSearchTerm] = useState("");
   const [searching, setSearching] = useState(false);
 
   useEffect(() => {
@@ -25,7 +25,14 @@ function App() {
 
   async function getRandQuote() {
     const result = await fetch("https://usu-quotes-mimic.vercel.app/api/random");
-    setRandQuote(await result.json());
+    const json = await result.json();
+    const quote: Quote = {
+      _id: json.id,
+      content: json.content, 
+      author: json.author
+    };
+    setRandQuote(quote);
+
   }
 
   async function getAuthorQuotes(author: string) {
@@ -71,7 +78,7 @@ function App() {
       </form>
       <div className="results">
         {
-          !searching ? (
+          !searching && randQuote != null ? (
           <div className="quote">
             <p className="quote__content">{randQuote.content}</p>
             <p className="quote__author">- {randQuote.author}</p>
