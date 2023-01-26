@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import './App.css'
 
 interface Quote {
-  _id: number;
+  id: number;
   content: string;
   author: string;
 }
@@ -10,7 +10,7 @@ interface Quote {
 function App() {
   const [searchTerm, setSearchTerm] = useState("");
   const [randQuote, setRandQuote] = useState("");
-  const [authorQuotes, setAuthorQuotes] = useState("")
+  const [authorQuotes, setAuthorQuotes] = useState<Quote[]>([])
   const [searching, setSearching] = useState(true);
 
   useEffect(() => {
@@ -22,7 +22,7 @@ function App() {
     //   });
     getRandQuote();
   }, []);
-  
+
   async function getRandQuote() {
     const result = await fetch("https://usu-quotes-mimic.vercel.app/api/random");
     setRandQuote(await result.json());
@@ -32,6 +32,7 @@ function App() {
       const result = await fetch(`https://usu-quotes-mimic.vercel.app/api/search?query=${author}`);
       setAuthorQuotes(await result.json()); 
       authorQuotes.results.forEach(element => {
+        
         console.log(element.author);
         
       });
@@ -63,8 +64,8 @@ function App() {
           setSearching(false);
         }
         console.log(`Searching: ${searching}`);
+        if (searching) {getAuthorQuotes(searchTerm)}
         showHideRandom(searching);
-        getAuthorQuotes(searchTerm);
         e.preventDefault();
         }}>
         <input 
@@ -79,6 +80,16 @@ function App() {
             <p className="rand-quote">{randQuote.content}</p>
             <p className="rand-author">- {randQuote.author}</p>
           </div>
+
+          {/* <div>
+            {
+              authorQuotes.map((quote) => (
+                <div key={quote.id}>
+                  <p>{quote.author}</p>
+                </div>
+              ))
+            }
+          </div> */}
       </div>
     </div>
   )
