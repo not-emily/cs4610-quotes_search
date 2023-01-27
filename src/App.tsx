@@ -37,43 +37,45 @@ function App() {
 
   return (
     <div className="App">
-      <h1>Quote Search</h1>
-      <form onSubmit={(e) => {
-        if (searchTerm != "") {
-          setSearching(true); 
-          getAuthorQuotes(searchTerm)
-        } else {
-          setSearching(false);
-        }
-        console.log(`Searching: ${searching}`);
-        e.preventDefault();
-        }}>
-        <input 
-          type="text" 
-          value={searchTerm}
-          placeholder="Albert Einstein"
-          onChange={e => setSearchTerm(e.target.value)}
-        />
-      </form>
-      <div className="results">
-        {
-          !searching && randQuote != null ? (
-          <div className="quote">
-            <p className="quote__content">{randQuote.content}</p>
-            <p className="quote__author">- {randQuote.author}</p>
-          </div>
-          ) : null
-        }
-        {
-          searching ? (
-          authorQuotes.map((quote) => (
-            <div className="quote" key={quote._id}>
-              <p className="quote__content">{quote.content}</p>
-              <p className="quote__author">- {quote.author}</p>
+      <div className={searching ? "searching" : "not-searching"}>
+        <h1>Quote Search</h1>
+        <form onSubmit={(e) => {
+          if (searchTerm != "") {
+            setSearching(true); 
+            getAuthorQuotes(searchTerm)
+          } else {
+            setSearching(false);
+          }
+          console.log(`Searching: ${searching}`);
+          e.preventDefault();
+          }}>
+          <input 
+            type="text" 
+            value={searchTerm}
+            placeholder="Albert Einstein"
+            onChange={e => setSearchTerm(e.target.value)}
+          />
+        </form>
+        <div className="results">
+          {
+            !searching && randQuote != null ? (
+            <div className="quote">
+              <p className="quote__content">{randQuote.content}</p>
+              <p className="quote__author">- {randQuote.author}</p>
             </div>
-          ))
-          ) : null
-        }
+            ) : null
+          }
+          {
+            searching ? (
+            authorQuotes.map((quote) => (
+              <div className="quote" key={quote._id}>
+                <p className="quote__content">{quote.content}</p>
+                <p className="quote__author">- {quote.author}</p>
+              </div>
+            ))
+            ) : null
+          }
+        </div>
       </div>
     </div>
   )

@@ -5,12 +5,12 @@
 }
 
 body,
-#root {
+#root,
+.App {
   margin: 0;
   display: flex;
   flex-direction: column;
   text-align: center;
-  align-items: center;
   justify-content: center;
   /* min-width: 320px; */
   min-height: 100vh;
@@ -31,6 +31,18 @@ body,
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+}
+
+.searching {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.not-searching {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 a {
