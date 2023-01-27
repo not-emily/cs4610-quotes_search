@@ -14,12 +14,6 @@ function App() {
   const [searching, setSearching] = useState(false);
 
   useEffect(() => {
-    // fetch("https://usu-quotes-mimic.vercel.app/api/random")
-    //   .then(r => r.json())
-    //   .then(quote => {
-    //     setRandQuote(quote);
-    //     console.log(quote);
-    //   });
     getRandQuote();
   }, []);
 
@@ -41,32 +35,17 @@ function App() {
       setAuthorQuotes(body.results);
   }
 
-  // function showHideRandom(searching: boolean) {
-  //   if (searching == true) {
-  //     document.getElementById("random-quote-block")!.style.visibility="hidden";
-  //   }
-  //   else {
-  //     document.getElementById("random-quote-block")!.style.visibility="visible";
-  //   }
-  // }
-
-  // function displayAuthorQuotes(quotes) {
-  //   for (let i=0; i<quotes.len; i++) {
-  //     console.log(quotes[i].author);
-  //   }
-  // }
-
   return (
     <div className="App">
       <h1>Quote Search</h1>
       <form onSubmit={(e) => {
         if (searchTerm != "") {
           setSearching(true); 
+          getAuthorQuotes(searchTerm)
         } else {
           setSearching(false);
         }
         console.log(`Searching: ${searching}`);
-        if (searching) {getAuthorQuotes(searchTerm)}
         e.preventDefault();
         }}>
         <input 
